@@ -11,7 +11,7 @@ db = mysql.connector.connect(
     host="sql3.freemysqlhosting.net",
     user="sql3748146",
     password="HNWn3HFPjP",
-    #database="monitoreo",
+    database="sql3748146",
     port=3306
 )
 
