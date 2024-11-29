@@ -1,0 +1,342 @@
+/* Estilos globales */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Karla', regular;
+    background-color: #f5f5f5;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 20px;
+    color: #4CAF50;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+nav .perfil-icon {
+    font-size: 10px;
+}
+
+/* Ajustes del Carrusel */
+.carousel {
+    height: 500px;
+    width: 100%;
+    max-width: 1400px;
+    position: relative;
+    overflow: visible !important; /* Asegura que los botones puedan sobresalir */
+}
+
+.carousel img {
+    object-fit: cover;
+    height: 500px; /* Imagen llena el contenedor */
+    width: 500px;
+    
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 300px;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Asegura que la imagen quede detrás */
+}
+
+.hero blockquote {
+    position: relative;
+    z-index: 2; /* Asegura que el blockquote esté encima */
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    font-style: italic;
+    color: #333;
+    border-radius: 10px; /* Opcional: Bordes redondeados */
+    text-align: center;
+    max-width: 600px; /* Limita el ancho del texto */
+}
+
+
+/* Blockquote personalizado para la cita */
+.blockquote-custom {
+    position: absolute;         /* Cita posicionada sobre la imagen */
+    bottom: 20px;               /* Ajuste desde la parte inferior */
+    left: 50%;                  /* Centra horizontalmente */
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para destacar el texto */
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+  }
+
+/* Ajuste del tamaño del texto según el ancho de pantalla */
+@media (min-width: 576px) {
+    
+    .blockquote-custom{
+        font-size: 0.5rem;  /* Aumenta el tamaño en pantallas medianas */
+    }
+
+}
+
+@media (min-width: 768px) {
+
+    .blockquote-custom{
+        font-size: 1.6rem;  /* Mayor tamaño en pantallas grandes */
+    }
+
+}
+
+
+
+/* Footer del autor */
+.blockquote-footer {
+    margin-top: 0px;
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.blockquote-custom footer {
+    margin-top: 0px;
+    font-size: 0.9rem;
+    color:#4CAF50;
+    background: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+/* Ajuste del footer para pantallas más grandes */
+@media (min-width: 576px) {
+    .blockquote-custom footer {
+        font-size: 0.9rem;  /* Aumenta el tamaño del autor en pantallas medianas */
+    }
+}
+
+@media (min-width: 768px) {
+    .blockquote-custom footer {
+        font-size: 1.5rem;  /* Mayor tamaño en pantallas grandes */
+    }
+}
+
+
+
+/* Funciones Section */
+.funciones {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.funciones h2 {
+    font-size: 28px;
+    color: #333;
+}
+
+.iconos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.icono {
+    text-align: center;
+}
+
+.icono img {
+    width: 80px;
+    height: 80px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+}
+
+/* Footer */
+footer {
+    background-color: #3B3030;
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.custom-footer {
+    background-color: #3B3030; /* Cambia esto al color que desees */
+    color: white; /* Para el texto del footer */
+  }
+
+  .custom-footer2 {
+    background-color: #37A24E; /* Cambia esto al color que desees */
+    color: white; /* Para el texto del footer */
+  }
+
+  .decorative-bar {
+    width: 100%;          /* Se extiende a todo el ancho */
+    height: 20px;         /* Define el grosor de la barra */
+    background-color: #37A24E; /* Color de la barra */
+  }
+
+footer .info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+    gap: 20px;
+    width: 100%; /* Abarca todo el ancho disponible */
+    max-width: 1200px; /* Limitar el ancho máximo */
+}
+
+footer h3 {
+    margin-top: 0;
+}
+
+footer p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+footer .copyright {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.container-barra {
+    width: 100%;
+}
+
+/* Imagen alineada a la izquierda */
+.image-container {
+    display: flex;           /* Flex para asegurar alineación */
+    align-items: center;     /* Alineación vertical */
+    padding: 0px;           /* Espaciado alrededor de la imagen */
+    margin-left: 50px;
+  }
+
+  .image-container img {
+    max-width: 100%;         /* Se adapta al tamaño del contenedor */
+    height: auto;            /* Mantiene proporción */
+    max-height: 100px;       /* Tamaño máximo permitido */
+    object-fit: contain;     /* Escala la imagen */
+    align-self: flex-start;  /* Alinea la imagen al inicio */
+  }
+
+  .custom-padding {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-top: 30px;
+  }
+
+.navbar-custom {
+    background-color: #3B3030; /* Cambia este color al que desees */
+    color: white;             /* Color del texto */
+}
+
+.navbar-custom .nav-link {
+    color: white;             /* Color de los enlaces */
+}
+
+.navbar-custom .nav-link:hover {
+    color: #FFD700;           /* Color de los enlaces al pasar el cursor */
+}
+
+/* Botones de desplazamiento */
+.carousel-control-prev, 
+.carousel-control-next {
+    background-color: #37A24E !important; /* Fondo verde sólido */
+    border-radius: 10%; /* Botón redondo */
+    width: 50px; /* Tamaño del botón */
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Posicionamiento absoluto */
+    top: 50%; /* Centrado vertical */
+    transform: translateY(-50%); /* Ajuste para centrar verticalmente */
+    z-index: 1; /* Asegura visibilidad sobre las imágenes */
+    opacity: 1 !important; /* Sin transparencia */
+}
+
+/* Botón de la izquierda sobresale hacia afuera */
+.carousel-control-prev {
+    left: -25px; /* Sobresale hacia la izquierda */
+}
+
+/* Botón de la derecha sobresale hacia afuera */
+.carousel-control-next {
+    right: -25px; /* Sobresale hacia la derecha */
+}
+
+/* Usar el SVG como ícono visible por encima del fondo */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: transparent !important; /* Eliminar cualquier fondo previo */
+    display: block; /* Asegura que se muestre como bloque */
+    content: url("{{ url_for('static', filename='flecha-blanca.svg') }}"); /* Ruta del SVG personalizado */
+    width: 20px; /* Tamaño de la flecha */
+    height: 20px;
+}
+
+/* Aumentar el tamaño del área clicable */
+.carousel-control-prev:hover, 
+.carousel-control-next:hover {
+    background-color: darkgreen !important; /* Fondo más oscuro al pasar el mouse */
+}
+
+/* Botón de iniciar sesión - estilo personalizado */
+.navbar .btn-login {
+    background-color: #37A24E; /* Verde personalizado */
+    border-color: #37A24E; /* Borde del mismo color */
+    color: white; /* Texto en blanco */
+    transition: background-color 0.3s, border-color 0.3s; /* Efecto suave */
+}
+
+/* Cambiar color al pasar el mouse */
+.navbar .btn-login:hover {
+    background-color: #218838; /* Verde más oscuro al hacer hover */
+    border-color: #1e7e34; /* Borde más oscuro */
+}
+
+/* Cambiar color al hacer clic */
+.navbar .btn-login:active {
+    background-color: #1c7430; /* Verde más intenso al presionar */
+    border-color: #1a6e2b; /* Borde más oscuro */
+}
+
+
+
+

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Riego{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container mt-5">
+    <h1 class="text-center">Monitoreo de Temperatura y Humedad</h1>
+
+    <!-- Pestañas para alternar entre gráficas -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="temp-tab" data-bs-toggle="tab" href="#temp" role="tab" aria-controls="temp" aria-selected="true">Temperatura</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="hum-tab" data-bs-toggle="tab" href="#hum" role="tab" aria-controls="hum" aria-selected="false">Humedad</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="humRel-tab" data-bs-toggle="tab" href="#humRel" role="tab" aria-controls="humRel" aria-selected="false">Humedad Relativa</a>
+        </li>
+    </ul>
+
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content my-4" id="myTabContent">
+        <!-- Gráfica de Temperatura -->
+        <div class="tab-pane fade show active" id="temp" role="tabpanel" aria-labelledby="temp-tab">
+            <h3>Temperatura (°C)</h3>
+            <canvas id="tempChart"></canvas>
+        </div>
+
+        <!-- Gráfica de Humedad -->
+        <div class="tab-pane fade" id="hum" role="tabpanel" aria-labelledby="hum-tab">
+            <h3>Humedad (%)</h3>
+            <canvas id="humChart"></canvas>
+        </div>
+
+        <!-- Gráfica de Humedad Relativa -->
+        <div class="tab-pane fade" id="humRel" role="tabpanel" aria-labelledby="humRel-tab">
+            <h3>Humedad Relativa (%)</h3>
+            <canvas id="humRelChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Configuración inicial de las gráficas
+    const tempCtx = document.getElementById('tempChart').getContext('2d');
+    const humCtx = document.getElementById('humChart').getContext('2d');
+    const humRelCtx = document.getElementById('humRelChart').getContext('2d');
+
+    const tempChart = new Chart(tempCtx, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'Temperatura (°C)', data: [], borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 2, fill: false }] },
+        options: { responsive: true, scales: { x: { title: { display: true, text: 'Fecha y Hora' } }, y: { beginAtZero: true, title: { display: true, text: 'Temperatura (°C)' } } } }
+    });
+
+    const humChart = new Chart(humCtx, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'Humedad (%)', data: [], borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 2, fill: false }] },
+        options: { responsive: true, scales: { x: { title: { display: true, text: 'Fecha y Hora' } }, y: { beginAtZero: true, title: { display: true, text: 'Humedad (%)' } } } }
+    });
+
+    const humRelChart = new Chart(humRelCtx, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'Humedad Relativa (%)', data: [], borderColor: 'rgba(7, 211, 69, 1)', borderWidth: 2, fill: false }] },
+        options: { responsive: true, scales: { x: { title: { display: true, text: 'Fecha y Hora' } }, y: { beginAtZero: true, title: { display: true, text: 'Humedad Relativa (%)' } } } }
+    });
+
+    // Función para obtener datos del backend y actualizar las gráficas
+    async function fetchData() {
+        const response = await fetch('/data');  // Llama a la ruta /data
+        const data = await response.json();     // Extrae los datos en formato JSON
+
+        // Actualiza las gráficas con los datos del servidor
+        tempChart.data.labels = data.etiquetas;
+        humChart.data.labels = data.etiquetas;
+        humRelChart.data.labels = data.etiquetas;
+
+        tempChart.data.datasets[0].data = data.temperatura;
+        humChart.data.datasets[0].data = data.hum_suelo;
+        humRelChart.data.datasets[0].data = data.hum_relativa;
+
+        tempChart.update();
+        humChart.update();
+        humRelChart.update();
+    }
+
+    // Llamar a fetchData automáticamente al cargar la página
+    window.onload = fetchData;
+</script>
+
+
+{% endblock %}

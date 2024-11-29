@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Riego{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Registrar Sensores</h1>
+
+    <!-- Formulario para registrar horarios -->
+    <form method="POST" class="my-4">
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select id="tipo" name="tipo" class="form-select" required>
+                <option value="Temperatura">Temperatura</option>
+                <option value="Humedad">Húmedad</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="modelo" class="form-label">Modelo</label>
+            <input type="text" id="modelo" name="modelo" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select id="estaod" name="estado" class="form-select" required>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Registrar Sensor</button>
+    </form>
+
+    <!-- Lista de horarios registrados -->
+    <h2 class="mt-5">Sensores Registrados</h2>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Modelo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sensor in sensores %}
+            <tr>
+                <td>{{ sensor.tipo }}</td>
+                <td>{{ sensor.modelo }}</td>
+                <td>{{ sensor.estado }}</td>
+                <td>
+                    <form action="{{ url_for('eliminar_sensor', id_sensor=sensor['id_sensor']) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" class="text-center">No hay sensores registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

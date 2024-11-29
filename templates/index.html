@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Riego{% endblock %}
+
+{% block content %}
+<section class="d-flex justify-content-center my-5">
+    <div id="heroCarousel" class="carousel slide rounded-4 overflow-hidden shadow-lg" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='campo.jpg') }}" class="d-block w-100" alt="Imagen 1">
+                <blockquote class="blockquote-custom position-absolute bottom-0 start-50 translate-middle-x text-center mb-4">
+                    <p class="quote-text">“Si realmente amas la naturaleza, encontrarás la belleza en todas partes”.</p>
+                    <footer class="blockquote-footer">Vincent Van Gogh</footer>
+                </blockquote>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='cebollas.jpg') }}" class="d-block w-100" alt="Imagen 2">
+                <blockquote class="blockquote-custom position-absolute bottom-0 start-50 translate-middle-x text-center mb-4">
+                    <p class="quote-text">“El agua es la fuerza motriz de toda la naturaleza”.</p>
+                    <footer class="blockquote-footer">Leonardo da Vinci</footer>
+                </blockquote>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='lechuga.jpg') }}" class="d-block w-100" alt="Imagen 3">
+                <blockquote class="blockquote-custom position-absolute bottom-0 start-50 translate-middle-x text-center mb-4">
+                    <p class="quote-text">“La tierra tiene música para los que escuchan”.</p>
+                    <footer class="blockquote-footer">William Shakespeare</footer>
+                </blockquote>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+</section>
+
+<!-- Funciones Section -->
+<section class="container text-center my-5">
+    <h2 class="mb-4">Funciones</h2>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="col">
+            <a href="/monitoreo" class="text-decoration-none">
+                <div class="card custom-padding border-0">
+                    <img src="{{ url_for('static', filename='monitoreo.png') }}" class="card-img-top mx-auto" style="width: 70px;" alt="Monitoreo">
+                    <div class="card-body">
+                        <p class="card-text">Monitoreo</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/sensores" class="text-decoration-none">
+                <div class="card custom-padding border-0">
+                    <img src="{{ url_for('static', filename='sensores.png') }}" class="card-img-top mx-auto" style="width: 70px;" alt="Sensores">
+                    <div class="card-body">
+                        <p class="card-text">Sensores</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/horarios" class="text-decoration-none">
+                <div class="card custom-padding border-0">
+                    <img src="{{ url_for('static', filename='horarios.png') }}" class="card-img-top mx-auto" style="width: 70px;" alt="Horarios">
+                    <div class="card-body">
+                        <p class="card-text">Horarios</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/historial" class="text-decoration-none">
+                <div class="card custom-padding border-0">
+                    <img src="{{ url_for('static', filename='historial.png') }}" class="card-img-top mx-auto" style="width: 70px;" alt="Historial">
+                    <div class="card-body">
+                        <p class="card-text">Historial</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+    
+    
+
+    
+    
+    
+
+    
