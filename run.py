@@ -24,4 +24,4 @@ DBConnection.init_pool()
 
 if __name__ == '__main__':
     # Ejecutar la aplicación
-    app.run(debug=True)
+    app.run(debug=False)

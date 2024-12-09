@@ -170,10 +170,170 @@
         }
     }
 
+    
 
     // Llama a la función al cargar la página
     fetchData();
+
+
 </script>
+
+<div class="container mt-5">
+    <h1 class="text-center">Estado del Huerto</h1>
+    
+    <!-- Tabla de rangos óptimos -->
+    <h3 class="mt-4">Rangos Óptimos para un Huerto de Hortalizas</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Parámetro</th>
+                <th>Rango Óptimo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Temperatura (°C)</td>
+                <td>18 - 25</td>
+            </tr>
+            <tr>
+                <td>Humedad Relativa (%)</td>
+                <td>60 - 80</td>
+            </tr>
+            <tr>
+                <td>Humedad del Suelo (%)</td>
+                <td>40 - 60</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Nueva gráfica de Estado del Huerto -->
+    <h3 class="mt-4">Estado del Huerto (Basado en Valores Recientes)</h3>
+    <canvas id="estadoHuertoChart"></canvas>
+</div>
+
+<script>
+    async function fetchEstadoHuerto() {
+    try {
+        const response = await fetch('/monitoreo/datos');
+        if (!response.ok) throw new Error("Error al obtener datos del servidor.");
+
+        const data = await response.json();
+        const valores = {
+            temperatura: data.temperatura[0],
+            humedadSuelo: data.hum_suelo[0],
+            humedadRelativa: data.hum_relativa[0],
+        };
+
+        const rangos = {
+            temperatura: [18, 25],
+            humedadSuelo: [40, 60],
+            humedadRelativa: [60, 80],
+        };
+
+        // Configuración de la gráfica
+        const ctx = document.getElementById('estadoHuertoChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Temperatura', 'Humedad del Suelo', 'Humedad Relativa'], // Orden actualizado
+                datasets: [{
+                    label: 'Estado Actual',
+                    data: [valores.temperatura, valores.humedadSuelo, valores.humedadRelativa], // Orden actualizado
+                    backgroundColor: [
+                        valores.temperatura >= rangos.temperatura[0] && valores.temperatura <= rangos.temperatura[1] ? '#28a745' : '#dc3545',
+                        valores.humedadSuelo >= rangos.humedadSuelo[0] && valores.humedadSuelo <= rangos.humedadSuelo[1] ? '#28a745' : '#dc3545',
+                        valores.humedadRelativa >= rangos.humedadRelativa[0] && valores.humedadRelativa <= rangos.humedadRelativa[1] ? '#28a745' : '#dc3545',
+                    ],
+                    borderColor: '#000',
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const label = context.dataset.label || '';
+                                const value = context.raw;
+                                return `${label}: ${value}`;
+                            }
+                        }
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 10,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Porcentaje / Valor',
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Parámetros',
+                        },
+                    },
+                },
+                plugins: {
+                    annotation: {
+                        annotations: [
+                            // Líneas de rango óptimo para Temperatura
+                            {
+                                type: 'box',
+                                xMin: -0.4,
+                                xMax: 0.4,
+                                yMin: rangos.temperatura[0],
+                                yMax: rangos.temperatura[1],
+                                backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                                borderWidth: 0,
+                            },
+                            // Líneas de rango óptimo para Humedad del Suelo
+                            {
+                                type: 'box',
+                                xMin: 0.6,
+                                xMax: 1.4,
+                                yMin: rangos.humedadSuelo[0],
+                                yMax: rangos.humedadSuelo[1],
+                                backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                                borderWidth: 0,
+                            },
+                            // Líneas de rango óptimo para Humedad Relativa
+                            {
+                                type: 'box',
+                                xMin: 1.6,
+                                xMax: 2.4,
+                                yMin: rangos.humedadRelativa[0],
+                                yMax: rangos.humedadRelativa[1],
+                                backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                                borderWidth: 0,
+                            },
+                        ]
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Error al cargar datos del estado del huerto:", error);
+    }
+}
+
+// Llamar a la función de carga al iniciar
+fetchEstadoHuerto();
+
+</script>
+
+
+
+
 
 {% endblock %}
 
