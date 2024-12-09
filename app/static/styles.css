@@ -1,12 +1,23 @@
 /* Estilos globales */
-html, body {
+html {
     height: 100%;
     margin: 0;
+    padding: 0%;
     font-family: 'Karla', regular;
-    background-color: #f5f5f5;
-    padding: 0;
+    background-color: #f5f5f5; 
+    
+    
+}
+
+body {
+    padding-top: 56px;
+    font-family: 'Karla', regular;
+    background-color: #f5f5f5; 
     display: flex;
-    flex-direction: column;
+    flex-direction: column;        
+    min-height: 100vh;
+    justify-content: center;
+    overflow-x: hidden; /* Evita el desplazamiento horizontal no deseado */
 }
 
 /* Header */
@@ -22,6 +33,10 @@ header {
 header h1 {
     font-size: 20px;
     color: #4CAF50;
+}
+
+.custom-navbar {
+    background-color: #ffffff; /* Cambia esto por el color que prefieras */
 }
 
 nav a {
@@ -337,6 +352,45 @@ footer .copyright {
     border-color: #1a6e2b; /* Borde más oscuro */
 }
 
+.login-container {
+    margin-top: 140px;
+    align-items: center;
+}
 
+.login-container .form-control {
+    border: none;
+    border-bottom: 1px solid #37A24E;
+    border-radius: 0;
+    background-color: #f5f5f5; /* Azul claro */
+    box-shadow: none;
+    align-items: center;
+}
 
+.login-container .form-control:focus {
+    border-color: #308b43;
+    box-shadow: none;
+    background-color: #f5f5f5;
+    align-items: center;
+}
 
+.page-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#login-button {
+    background-color: #37A24E; /* Color específico */
+    color: white;
+    border: none;
+}
+
+#login-button:hover {
+    background-color: #308b43; /* Color al pasar el mouse */
+}
+
+#login-button:active {
+    background-color: #2a773b; /* Color al hacer clic */
+}

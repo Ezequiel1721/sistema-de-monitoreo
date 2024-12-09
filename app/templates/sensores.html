@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Riego{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Registrar Sensores</h1>
+
+    <!-- Mostrar formulario solo si el usuario es profesor -->
+    {% if session.get('role') == 'profesor' %}
+    <form method="POST" action="/sensores/" class="my-4 d-flex flex-column align-items-center">
+        <!-- Fila: Tipo -->
+        <div class="mb-3 w-100 d-flex justify-content-between">
+            <div class="w-50 me-2">
+                <label for="tipo" class="form-label">Tipo</label>
+                <select id="tipo" name="tipo" class="form-select" required>
+                    <option value="Temperatura">Temperatura</option>
+                    <option value="Humedad">Humedad</option>
+                </select>
+            </div>
+            <!-- Fila: Modelo -->
+            <div class="mb-3 w-50">
+                <label for="modelo" class="form-label">Modelo</label>
+                <input type="text" id="modelo" name="modelo" class="form-control" required>
+            </div>
+        </div>
+        
+        
+        <!-- Fila: Zona y Estado -->
+        <div class="mb-3 w-100 d-flex justify-content-between">
+            <div class="w-50 me-2">
+                <label for="id_zona" class="form-label">Zona</label>
+                <input type="number" id="id_zona" name="id_zona" class="form-control" value="1" required>
+            </div>
+            <div class="w-50">
+                <label for="estado" class="form-label">Estado</label>
+                <select id="estado" name="estado" class="form-select" required>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Botón de registro -->
+        <div class="mt-4">
+            <button type="submit" id="login-button" class="btn btn-login">Registrar Sensor</button>
+        </div>
+    </form>
+    
+    {% else %}
+    <p class="text-center text-muted">Debes iniciar sesión como profesor para registrar sensores.</p>
+    {% endif %}
+
+    <!-- Lista de Sensores -->
+    <h2 class="mt-5 text-center">Sensores Registrados</h2>
+    <div class="d-flex justify-content-center">
+        <table class="table table-bordered mt-3 w-100">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Modelo</th>
+                    <th>Estado</th>
+                    {% if session.get('role') == 'profesor' %}
+                    <th>Acciones</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for sensor in sensores %}
+                <tr>
+                    <td>{{ sensor.tipo }}</td>
+                    <td>{{ sensor.modelo }}</td>
+                    <td>{{ sensor.estado }}</td>
+                    {% if session.get('role') == 'profesor' %}
+                    <td>
+                        <form action="{{ url_for('sensores.eliminar_sensor', id_sensor=sensor.id) }}" method="POST" style="display:inline;" class="deleteForm">
+                            <button type="submit" class="btn btn-danger btn-sm deleteButton">Eliminar</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="{% if session.get('role') == 'profesor' %}4{% else %}3{% endif %}" class="text-center">No hay sensores registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Confirmación antes de eliminar un sensor
+    document.querySelectorAll('.deleteForm').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            if (!confirm('¿Estás seguro de que deseas eliminar este sensor? Esta acción no se puede deshacer.')) {
+                event.preventDefault();
+            }
+        });
+    });
+
+    // Validación del formulario de registro
+    document.getElementById('sensorForm').addEventListener('submit', function(event) {
+        const modelo = document.getElementById('modelo').value.trim();
+        if (modelo.length < 3) {
+            alert('El modelo debe tener al menos 3 caracteres.');
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

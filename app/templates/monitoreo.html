@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Riego{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container mt-5">
+    <h1 class="text-center">Monitoreo de Temperatura y Humedad</h1>
+
+    <!-- Pestañas para alternar entre gráficas -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="temp-tab" data-bs-toggle="tab" href="#temp" role="tab" aria-controls="temp" aria-selected="true">Temperatura</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="hum-tab" data-bs-toggle="tab" href="#hum" role="tab" aria-controls="hum" aria-selected="false">Humedad</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="humRel-tab" data-bs-toggle="tab" href="#humRel" role="tab" aria-controls="humRel" aria-selected="false">Humedad Relativa</a>
+        </li>
+    </ul>
+
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content my-4" id="myTabContent">
+        <!-- Gráfica de Temperatura -->
+        <div class="tab-pane fade show active" id="temp" role="tabpanel" aria-labelledby="temp-tab">
+            <h3>Temperatura (°C)</h3>
+            <canvas id="tempChart"></canvas>
+            <h4 class="text-center mt-2">Valor más reciente: <span id="tempValue">--</span>°C</h4>
+        </div>
+
+        <!-- Gráfica de Humedad -->
+        <div class="tab-pane fade" id="hum" role="tabpanel" aria-labelledby="hum-tab">
+            <h3>Humedad del Suelo (%)</h3>
+            <canvas id="humChart"></canvas>
+            <h4 class="text-center mt-2">Valor más reciente: <span id="humValue">--</span>%</h4>
+        </div>
+
+        <!-- Gráfica de Humedad Relativa -->
+        <div class="tab-pane fade" id="humRel" role="tabpanel" aria-labelledby="humRel-tab">
+            <h3>Humedad Relativa (%)</h3>
+            <canvas id="humRelChart"></canvas>
+            <h4 class="text-center mt-2">Valor más reciente: <span id="humRelValue">--</span>%</h4>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript para cargar datos y generar las gráficas -->
+<script>
+    // Configuración inicial de las gráficas
+    const ctxTemp = document.getElementById('tempChart').getContext('2d');
+    const ctxHumSuelo = document.getElementById('humChart').getContext('2d');
+    const ctxHumRel = document.getElementById('humRelChart').getContext('2d');
+
+    const tempChart = new Chart(ctxTemp, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Temperatura (°C)',
+                data: [],
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: 8 // Asegura que se muestren 8 etiquetas
+                    }
+                }
+            }
+        }
+    });
+
+
+    const humChart = new Chart(ctxHumSuelo, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Humedad del Suelo (%)',
+                data: [],
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: 8
+                    }
+                }
+            }
+        }
+    });
+
+    const humRelChart = new Chart(ctxHumRel, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Humedad Relativa (%)',
+                data: [],
+                borderColor: 'rgba(75, 192, 75, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: 8
+                    }
+                }
+            }
+        }
+    });
+
+
+    // Función para cargar datos desde el servidor
+    async function fetchData() {
+        try {
+            const response = await fetch('/monitoreo/datos');
+            if (!response.ok) {
+                throw new Error("Error al obtener datos del servidor.");
+            }
+            const data = await response.json();
+
+            console.log("Datos recibidos:", data); // Depuración para verificar los datos
+
+            // Invierte las etiquetas y los datos para que los valores más recientes estén a la derecha
+            const etiquetas = (data.etiquetas || []).reverse();
+            const temperaturas = (data.temperatura || []).reverse();
+            const humedadesSuelo = (data.hum_suelo || []).reverse();
+            const humedadesRelativas = (data.hum_relativa || []).reverse();
+
+            // Actualiza las gráficas con los datos invertidos
+            tempChart.data.labels = etiquetas;
+            tempChart.data.datasets[0].data = temperaturas;
+            tempChart.update();
+
+            humChart.data.labels = etiquetas;
+            humChart.data.datasets[0].data = humedadesSuelo;
+            humChart.update();
+
+            humRelChart.data.labels = etiquetas;
+            humRelChart.data.datasets[0].data = humedadesRelativas;
+            humRelChart.update();
+
+            // Actualiza los valores más recientes debajo de las gráficas
+            document.getElementById('tempValue').textContent = temperaturas?.[7] || '--';
+            document.getElementById('humValue').textContent = humedadesSuelo?.[7] || '--';
+            document.getElementById('humRelValue').textContent = humedadesRelativas?.[7] || '--';
+        } catch (error) {
+            console.error("Error al cargar los datos:", error);
+        }
+    }
+
+
+    // Llama a la función al cargar la página
+    fetchData();
+</script>
+
+{% endblock %}
+
+
+
+
+

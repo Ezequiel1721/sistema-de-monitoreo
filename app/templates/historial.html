@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Riego{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Historial de Eventos de Riego</h1>
+    <table class="table table-bordered table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Zona</th>
+                <th>Usuario</th>
+                <th>Temperatura</th>
+                <th>Humedad Suelo</th>
+                <th>Humedad Relativa</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Duración (minutos)</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in eventos %}
+            <tr>
+                <td>{{ evento.id_evento }}</td>
+                <td>{{ evento.nombre_zona }}</td>
+                <td>{{ evento.nombre_usuario }}</td>
+                <td>{{ evento.temperatura }} °C</td>
+                <td>{{ evento.hum_suelo }} %</td>
+                <td>{{ evento.hum_relativa }} %</td>
+                <td>{{ evento.hora | format_timedelta }}</td>
+                <td>{{ evento.fecha | format_timedelta }}</td>
+                <td>{{ evento.duracion }}</td>
+                <td>{{ evento.estado }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
